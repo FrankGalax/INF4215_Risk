@@ -6,10 +6,30 @@ from PlaceTroopsAction import *
 class AI:
     def __init__(self):
         pass
-    # default be
+
+    # Choose a starting country one at the time
+    #
+    # remainingCountries : the countries that are not chosen yet
+    # ownedCountries : the countries that you own so far
+    # allCountries : all countries
+    #
+    # return : one element of the remainingCountries list
+    #
+    # default behaviour : chooses the first country of the list
     def chooseStartingCountry(self, remainingCountries, ownedCountries, allCountries):
         return remainingCountries[0]
 
+    # Place troops before the games begins. You can place only a portion of the available
+    # troops. This method will be called again if you still have troops to be placed
+    #
+    # nbTroopsToPlace : the amount of troops you can place
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : a list of PlaceTroopsAction
+    #
+    # default behaviour : split the troops equaly between all owned countries. The
+    # remainder is place in the first owned country
     def placeStartingTroops(self, nbTroopsToPlace, ownedCountries, allCountries):
         placeTroopsAction = []
         rest = nbTroopsToPlace
@@ -21,6 +41,16 @@ class AI:
         placeTroopsAction[0].nbTroops += rest
         return placeTroopsAction
 
+    # Declare attacks on the other countries. You need to check if the defending country is
+    # not yours, or your attack declaration will be ignored
+    #
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : a list of AttackAction.
+    #
+    # default behaviour : Declare an attack for each country that has a neighbour country owned
+    # by the other player
     def declareAttacks(self, ownedCountries, allCountries):
         attackActions = []
         for countryName in ownedCountries:
@@ -30,6 +60,16 @@ class AI:
                     attackActions.append(AttackAction(country, neighbour, 3))
         return attackActions
 
+    # Place troops at the start of your turn. You need to place all available troops at one
+    #
+    # nbTroopsToPlace : the amount of troops you can place
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : a list of PlaceTroopsAction
+    #
+    # default behaviour : split the troops equaly between all owned countries that have a
+    # neighbour country owned by an enemy player
     def placeTroops(self, nbTroopsToPlace, ownedCountries, allCountries):
         placeTroopsAction = []
         nb = nbTroopsToPlace
@@ -55,23 +95,89 @@ class AI:
                     break
         return placeTroopsAction
 
-    def moveTroops(self):
+    # NOT IMPLEMENTED YET
+    #
+    # Move troops after attacking. You can only move one per turn
+    #
+    # turnAttackResults : the result of all the attacks you declared this turn
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : a lsingle MoveTroopAction
+    #
+    # default behaviour : ???
+    def moveTroops(self, turnAttackResults, ownedCountries, allCountries):
         pass
 
+    # Decide the amount of attacking dice while attacking
+    #
+    # attackResult : the result of the pending attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : a number between 1 and 3
+    #
+    # default behaviour : always choose 3
     def decideNbAttackingDice(self, attackResult, ownedCountries, allCountries):
         return 3
 
+    # Decide the amount of defending dice while defending
+    #
+    # attackResult : the result of the pending attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : a number between 1 and 2
+    #
+    # default behaviour : always choose 2
     def decideNbDefendingDice(self, attackResult, ownedCountries, allCountries):
         return 2
 
+    # Called when your AI wins an attack
+    #
+    # attackResult : the result of the attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
     def onAttackWon(self, attackResult, ownedCountries, allCountries):
         pass
 
+    # Called when your AI loses an attack. AKA the attack finished because you only have 1 troop left in
+    # the attacking country
+    #
+    # attackResult : the result of the attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
     def onAttackLost(self, attackResult, ownedCountries, allCountries):
         pass
 
+    # Called when your AI succeeds to defend a territory.
+    #
+    # attackResult : the result of the attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
     def onDefendWon(self, attackResult, ownedCountries, allCountries):
         pass
 
+    # Called when your AI fails to defend a territory.
+    #
+    # attackResult : the result of the attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
     def onDefendLost(self, attackResult, ownedCountries, allCountries):
         pass
