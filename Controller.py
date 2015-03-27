@@ -2,6 +2,7 @@ from MapFactory import *
 from Player import *
 from random import *
 from AttackResult import *
+from collections import deque
 
 class Controller:
 
@@ -86,8 +87,18 @@ class Controller:
                 print player._name, "placed", placeTroopAction.nbTroops, "troops in", placeTroopAction.countryName
 
             attackActions = ai.declareAttacks(player._ownedCountries, self._map._countries)
+            attackResults = []
             for attackAction in attackActions:
-                self._doAttack(attackAction, player, ai, otherPlayer, otherAi)
+                attackResult = self._doAttack(attackAction, player, ai, otherPlayer, otherAi)
+                if attackResult is not None:
+                    attackResults.append(attackResult)
+
+            moveAction = ai.moveTroops(attackResults, player._ownedCountries, self._map._countries)
+            if moveAction is not None:
+                if self._canMove(moveAction):
+                    moveAction.startCountry._removeTroops(moveAction.nbTroops)
+                    moveAction.endCountry._addTroops(moveAction.nbTroops)
+                    print player._name, "moved", moveAction.nbTroops, "from", moveAction.startCountry._name, "to", moveAction.endCountry._name
 
             self._winner = self._getWinner()
             if self._winner is not None:
@@ -103,8 +114,22 @@ class Controller:
     def _doAttack(self, attackAction, attackingPlayer, attackingAi, defendingPlayer, defendingAi):
         attackingCountry = attackAction._attackingCountry
         defendingCountry = attackAction._defendingCountry
-
+        print "*** ATTACK ***"
         print attackingCountry._name, "declared an attack on", defendingCountry._name, "!"
+
+        if attackingCountry._owner == defendingCountry._owner:
+            print "Attack between", attackingCountry._name, "and", defendingCountry._name, "canceled"
+            print "Cannot attack an allied country"
+            return None
+        if defendingCountry not in attackingCountry._neighbours:
+            print "Attack between", attackingCountry._name, "and", defendingCountry._name, "canceled"
+            print "The two countries are not neighbours"
+            return None
+        if attackingCountry._nbTroops <= 1:
+            print "Attack between", attackingCountry._name, "and", defendingCountry._name, "canceled"
+            print attackingCountry._name, "has not enough troops to fight"
+            return None
+
         attackResult = AttackResult(
             self._attackId,
             attackAction._attackingCountry,
@@ -197,6 +222,32 @@ class Controller:
             defendingAi.onDefendLost(attackResult, defendingPlayer._ownedCountries, self._map._countries)
         elif attackAction._nbAttackingDice == 0:
             print attackingPlayer.name, "chose to cancel the attack"
+        return attackResult
+
+    def _canMove(self, moveAction):
+        if moveAction.startCountry._owner != moveAction.endCountry._owner:
+            print "Move canceled from", moveAction.startCountry._name, "to", moveAction.endCountry._name
+            print "Cannot move to an enemy country"
+            return False
+        if moveAction.startCountry._nbTroops - 1 < moveAction.nbTroops:
+            print "Move canceled from", moveAction.startCountry._name, "to", moveAction.endCountry._name
+            print "Not enough troops in starting country"
+            return False
+
+        queue = deque([])
+        visited = []
+        queue.appendleft(moveAction.startCountry)
+        while queue:
+            country = queue.pop()
+            if country == moveAction.endCountry:
+                return True
+
+            visited.append(country)
+
+            for neighbour in country._neighbours:
+                if neighbour not in visited:
+                    queue.appendleft(neighbour)
+        return False
 
     def _getWinner(self):
         firstCountryOwner = self._map._countries[0]._owner

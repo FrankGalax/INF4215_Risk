@@ -1,5 +1,6 @@
 from AttackAction import *
 from PlaceTroopsAction import *
+from MoveAction import *
 
 # WARNING : IT IS FORBIDDEN TO USE ANY CLASS MEMBER THAT STARTS WITH _
 # IN THE AI CLASS
@@ -95,8 +96,6 @@ class AI:
                     break
         return placeTroopsAction
 
-    # NOT IMPLEMENTED YET
-    #
     # Move troops after attacking. You can only move one per turn
     #
     # turnAttackResults : the result of all the attacks you declared this turn
@@ -105,9 +104,23 @@ class AI:
     #
     # return : a lsingle MoveTroopAction
     #
-    # default behaviour : ???
+    # default behaviour : choose a country that has more than 1 troops, move all
+    # troops except 1 to a neighbour country that has a neighbour enemy country
     def moveTroops(self, turnAttackResults, ownedCountries, allCountries):
-        pass
+        for countryName in ownedCountries:
+            country = ownedCountries[countryName]
+            if country.getNbTroops() <= 1:
+                continue
+
+            for neighbour in country.getNeighbours():
+                if neighbour.getOwner() != country.getOwner():
+                    continue
+                for secondNeighbour in neighbour.getNeighbours():
+                    if secondNeighbour == country:
+                        continue
+                    if secondNeighbour.getOwner() != country.getOwner():
+                        return MoveAction(country, neighbour, country.getNbTroops()-1)
+        return None
 
     # Decide the amount of attacking dice while attacking
     #
