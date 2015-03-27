@@ -37,6 +37,13 @@ class Controller:
         print "*** WE HAVE A WINNER ***"
         print self._winner, "won! Congratulations"
 
+        winningPlayerIndex = 0
+        if self._winner == self._players[1]._name:
+            winningPlayerIndex = 1
+        losingPlayerIndex = 1 - winningPlayerIndex
+        self._ais[winningPlayerIndex].onGameWon(self._map._countries)
+        self._ais[losingPlayerIndex].onGameLost(self._map._countries)
+
     def _update(self):
         self._step += 1
         player = self._players[self._turn]

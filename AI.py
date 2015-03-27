@@ -194,3 +194,23 @@ class AI:
     # default behaviour : do nothing
     def onDefendLost(self, attackResult, ownedCountries, allCountries):
         pass
+
+    # Called when your AI wins the game
+    #
+    # allCountries : all countries, you own all countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
+    def onGameWon(self, allCountries):
+        pass
+
+    # Called when your AI lost the game
+    #
+    # allCountries : all countries, you own no countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
+    def onGameLost(self, allCountries):
+        pass
