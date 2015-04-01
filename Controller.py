@@ -219,7 +219,13 @@ class Controller:
         if defendingCountry._nbTroops == 0 and attackingCountry._nbTroops >= 2:
             print defendingCountry._name, "could not defend itself!", attackingPlayer._name, "takes", defendingCountry._name
             defendingCountry._changeOwner(attackingPlayer._name)
-            nbTransfer = int(attackingCountry._nbTroops / 2)
+            nbTransfer = attackingAi.decideNbTransferingTroops(
+                attackResult,
+                attackingCountry,
+                defendingCountry,
+                attackingPlayer._ownedCountries,
+                self._map._countries
+            )
             print nbTransfer, "troops transfered"
             defendingCountry._addTroops(nbTransfer)
             attackingCountry._removeTroops(nbTransfer)

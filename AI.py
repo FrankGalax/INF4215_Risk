@@ -128,7 +128,7 @@ class AI:
     # ownedCountries : the countries that you own
     # allCountries : all countries
     #
-    # return : a number between 1 and 3
+    # return : a number between 0 and 3, 0 means that you want to cancel the attack
     #
     # default behaviour : always choose 3
     def decideNbAttackingDice(self, attackResult, ownedCountries, allCountries):
@@ -145,6 +145,20 @@ class AI:
     # default behaviour : always choose 2
     def decideNbDefendingDice(self, attackResult, ownedCountries, allCountries):
         return 2
+
+    # Decide the amount of troops to be transfered to the new country after winning a battle
+    #
+    # attackResult : the result of the attack
+    # startCountry : the country to move from
+    # endCountry : the country to move to
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : a number between 1 and the amount of troops in startCountry
+    #
+    # default behaviour : move half of the troops to the new country
+    def decideNbTransferingTroops(self, attackResult, startCountry, endCountry, ownedCountries, allCountries):
+        return int(startCountry.getNbTroops()/2)
 
     # Called when your AI wins an attack
     #
