@@ -106,6 +106,9 @@ class Controller:
                     moveAction.startCountry._removeTroops(moveAction.nbTroops)
                     moveAction.endCountry._addTroops(moveAction.nbTroops)
                     print player._name, "moved", moveAction.nbTroops, "from", moveAction.startCountry._name, "to", moveAction.endCountry._name
+                else:
+                    print "Troops cannot move from", moveAction.startCountry._name, "to", moveAction.endCountry._name
+                    print "There is no path between the two countries where all countries belong to", player._name
 
             self._winner = self._getWinner()
             if self._winner is not None:
@@ -258,7 +261,7 @@ class Controller:
             visited.append(country)
 
             for neighbour in country._neighbours:
-                if neighbour not in visited:
+                if neighbour not in visited and neighbour._owner == country._owner:
                     queue.appendleft(neighbour)
         return False
 
