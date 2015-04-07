@@ -185,6 +185,18 @@ class AI:
     def onAttackLost(self, attackResult, ownedCountries, allCountries):
         pass
 
+    # Called when your AI cancels an attack. AKA you return 0 as the number of attacking dice
+    #
+    # attackResult : the result of the attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
+    def onAttackCanceled(self, attackResult, ownedCountries, allCountries):
+        pass
+
     # Called when your AI succeeds to defend a territory.
     #
     # attackResult : the result of the attack
@@ -207,6 +219,18 @@ class AI:
     #
     # default behaviour : do nothing
     def onDefendLost(self, attackResult, ownedCountries, allCountries):
+        pass
+
+    # Called when your AI quits defending because the attacker canceled the attack.
+    #
+    # attackResult : the result of the attack
+    # ownedCountries : the countries that you own
+    # allCountries : all countries
+    #
+    # return : nothing
+    #
+    # default behaviour : do nothing
+    def onDefendCanceled(self, attackResult, ownedCountries, allCountries):
         pass
 
     # Called when your AI wins the game
