@@ -87,8 +87,15 @@ class Controller:
             if self._enterState:
                 print "*** PLAYING ***"
                 self._enterState = False
-            placeTroopsAction = ai.placeTroops(3, player._ownedCountries, self._map._countries)
+            nbTroopsToPlace = max(int(len(player._ownedCountries) / 3), 3)
+            placeTroopsAction = ai.placeTroops(nbTroopsToPlace, player._ownedCountries, self._map._countries)
+            remainingTroops = nbTroopsToPlace
             for placeTroopAction in placeTroopsAction:
+                if remainingTroops <= 0:
+                    break
+                if placeTroopAction.nbTroops > remainingTroops:
+                    placeTroopAction.nbTroops = remainingTroops
+                remainingTroops -= placeTroopAction.nbTroops
                 country = player._ownedCountries[placeTroopAction.countryName]
                 country._addTroops(placeTroopAction.nbTroops)
                 print player._name, "placed", placeTroopAction.nbTroops, "troops in", placeTroopAction.countryName
