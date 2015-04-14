@@ -24,7 +24,8 @@ class FMAI(AI):
 
     def loadChooseStartingCountry(self):
         self.cscFileName = "fm_choose_starting_country.csv"
-        cscFile = open(self.cscFileName, "w+")
+        open(self.cscFileName, "a").close()
+        cscFile = open(self.cscFileName, "r")
         cscReader = csv.reader(cscFile)
         self.cscUtility = {}
         for row in cscReader:
@@ -35,7 +36,8 @@ class FMAI(AI):
 
     def loadDecideNbAttackingDice(self):
         self.dnadFileName = "fm_decide_nb_attacking_dice.csv"
-        dnadFile = open(self.dnadFileName, "w+")
+        open(self.dnadFileName, "a").close()
+        dnadFile = open(self.dnadFileName, "r")
         dnadReader = csv.reader(dnadFile)
         self.dnadUtility = {}
         for row in dnadReader:
@@ -50,7 +52,8 @@ class FMAI(AI):
 
     def loadPlaceStartingTroops(self):
         self.pstFileName = "fm_place_starting_troops.csv"
-        pstFile = open(self.pstFileName, "w+")
+        open(self.pstFileName, "a").close()
+        pstFile = open(self.pstFileName, "r")
         pstReader = csv.reader(pstFile)
         self.pstUtility = {}
         for row in pstReader:
@@ -65,7 +68,8 @@ class FMAI(AI):
 
     def loadDeclareAttacks(self):
         self.daFileName = "fm_declare_attacks.csv"
-        daFile = open(self.daFileName, "w+")
+        open(self.daFileName, "a").close()
+        daFile = open(self.daFileName, "r")
         daReader = csv.reader(daFile)
         self.daUtility = {}
         for row in daReader:
@@ -77,7 +81,8 @@ class FMAI(AI):
 
     def loadPlaceTroops(self):
         self.ptFileName = "fm_place_troops.csv"
-        ptFile = open(self.ptFileName, "w+")
+        open(self.ptFileName, "a").close()
+        ptFile = open(self.ptFileName, "r")
         ptReader = csv.reader(ptFile)
         self.ptUtility = {}
         for row in ptReader:
