@@ -43,6 +43,7 @@ class Controller:
         losingPlayerIndex = 1 - winningPlayerIndex
         self._ais[winningPlayerIndex].onGameWon(self._map._countries)
         self._ais[losingPlayerIndex].onGameLost(self._map._countries)
+        return winningPlayerIndex
 
     def _update(self):
         self._step += 1
