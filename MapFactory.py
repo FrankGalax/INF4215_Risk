@@ -89,6 +89,11 @@ class MapFactory:
             argentina._addNeighbour(peru)
             argentina._addNeighbour(brazil)
 
+            continents = []
+            continents.append((2, "South America", [venezuela, peru, brazil, argentina]))
+            continents.append((5, "North America", [alaska, northWestTerritory, greenland, alberta, ontario, quebec, westernUnitedStates,
+                                   easternUnitedStates, centralAmerica]))
+
             return Map([alaska, northWestTerritory, greenland, alberta, ontario,
                         quebec, westernUnitedStates, easternUnitedStates, centralAmerica,
-                        venezuela, peru, brazil, argentina])
+                        venezuela, peru, brazil, argentina], continents)

@@ -87,7 +87,7 @@ class Controller:
             if self._enterState:
                 print "*** PLAYING ***"
                 self._enterState = False
-            nbTroopsToPlace = max(int(len(player._ownedCountries) / 3), 3)
+            nbTroopsToPlace = self._getNbTroopsToPlace(player)
             placeTroopsAction = ai.placeTroops(nbTroopsToPlace, player._ownedCountries, self._map._countries)
             remainingTroops = nbTroopsToPlace
             for placeTroopAction in placeTroopsAction:
@@ -281,3 +281,15 @@ class Controller:
 
     def _rollDice(self):
         return randint(1, 6)
+
+    def _getNbTroopsToPlace(self, player):
+        troops = max(int(len(player._ownedCountries) / 3), 3)
+        for troopReward, continentName, countries in self._map._continents:
+            hasContinent = True
+            for country in countries:
+                if country._owner != player._name:
+                    hasContinent = False
+            if hasContinent:
+                print player._name, "controls the", continentName, "continent.", troopReward, "bonus troops rewarded!"
+                troops += troopReward
+        return troops
