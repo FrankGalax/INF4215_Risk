@@ -5,7 +5,7 @@ from FMAI import *
 
 ai1 = MLAgent()
 nbWin = 0
-for i in xrange(1000):
+for i in xrange(100):
     ai2 = FMAI(0.5)
     controller = Controller("Americas", "Scrubby", "FM", ai1, ai2)
     winningPlayerIndex = controller.play()
