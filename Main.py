@@ -4,7 +4,10 @@ from AI import *
 from RandomAI import *
 from FMAI import *
 
-ai1 = MLAgent()
+ai1 = MLAgent() # agent adverse avec apprentissage machine
+#ai1 = RandomAI() # agent adverse aleatoire
+#ai1 = AI() # agent adverse sans apprentissage machine
+
 nbWin = 0
 for i in xrange(100):
     ai2 = FMAI(0.5)
