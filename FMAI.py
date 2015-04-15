@@ -142,7 +142,7 @@ class FMAI(AI):
                         countryNameMax = countryName
                         nbPerCountryMax = nbPerCountry
             if countryNameMax == "":
-                nbPerCountryMax = self.random.choice([1, 2, 3])
+                nbPerCountryMax = self.random.choice([1, 2, 3, 4, 5])
                 countryNameMax = ownedCountries.keys()[self.random.choice(xrange(len(ownedCountries)))]
 
             placeTroopsActions = []
@@ -156,7 +156,7 @@ class FMAI(AI):
         else:
             placeTroopsActions = []
             rest = nbTroopsToPlace
-            nbPerCountry = self.random.choice([1, 2, 3])
+            nbPerCountry = self.random.choice([1, 2, 3, 4, 5])
             for countryName in ownedCountries:
                 nbTroopsAtThisCountry = nbPerCountry
                 if rest - nbTroopsAtThisCountry < 0:

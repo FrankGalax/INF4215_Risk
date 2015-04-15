@@ -1,6 +1,7 @@
 from Controller import *
 from MLAgent import *
 from AI import *
+from RandomAI import *
 from FMAI import *
 
 ai1 = MLAgent()
